@@ -1,0 +1,142 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "done": "Done",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "seeAll": "See all",
+    "noResults": "No results found",
+    "report": "Report"
+  },
+  "auth": {
+    "welcome": "Welcome to Food Journal",
+    "tagline": "Discover the best food in the UAE",
+    "selectLanguage": "Select your language",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "displayName": "Display name",
+    "alreadyHaveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?"
+  },
+  "tabs": {
+    "explore": "Explore",
+    "discover": "Discover",
+    "add": "Add",
+    "passport": "Passport",
+    "profile": "Profile"
+  },
+  "explore": {
+    "searchPlaceholder": "Search restaurants, cafés…",
+    "filters": "Filters",
+    "nearby": "Nearby",
+    "noPlacesFound": "No places found in this area",
+    "zoomIn": "Zoom in to see more places",
+    "openNow": "Open now",
+    "cuisine": "Cuisine",
+    "price": "Price",
+    "neighborhood": "Neighborhood",
+    "city": "City",
+    "clearFilters": "Clear filters",
+    "applyFilters": "Apply filters"
+  },
+  "place": {
+    "reviews": "Reviews",
+    "photos": "Photos",
+    "save": "Save",
+    "saved": "Saved",
+    "writeReview": "Write a review",
+    "noReviews": "No reviews yet. Be the first!",
+    "noPhotos": "No photos yet",
+    "openHours": "Hours",
+    "phone": "Call",
+    "directions": "Directions",
+    "priceTier": {
+      "1": "Budget",
+      "2": "Mid-range",
+      "3": "Upscale",
+      "4": "Fine dining"
+    },
+    "visitedBadge": "Visited"
+  },
+  "review": {
+    "title": "Write a review",
+    "stepPlace": "Choose a place",
+    "stepRating": "How was it?",
+    "stepText": "Tell us more",
+    "stepPhotos": "Add photos",
+    "placeholder": "What did you think? What should others order?",
+    "visitDate": "Visit date",
+    "setVisitDate": "Set visit date",
+    "discardTitle": "Discard review?",
+    "discardMessage": "Your draft will be lost.",
+    "keepEditing": "Keep editing",
+    "discardAction": "Discard",
+    "postButton": "Post",
+    "nextButton": "Next",
+    "ratingRequired": "Please choose a star rating to continue",
+    "report": "Report",
+    "reportTitle": "Report content",
+    "reportSuccess": "Report submitted. Thank you.",
+    "reportReasons": {
+      "spam": "Spam",
+      "inappropriate": "Inappropriate content",
+      "inaccurate": "Inaccurate information",
+      "harassment": "Harassment or abuse",
+      "other": "Other"
+    }
+  },
+  "passport": {
+    "title": "My Passport",
+    "stamps": "Stamps",
+    "progress": "Progress",
+    "locked": "Locked",
+    "unlocked": "Unlocked",
+    "foundingBadge": "Founding Contributor",
+    "earned": "Earned",
+    "checkProgress": "Check progress",
+    "category": {
+      "milestone": "Milestones",
+      "cuisine": "Cuisines",
+      "neighborhood": "Neighborhoods",
+      "founding": "Founding"
+    }
+  },
+  "discover": {
+    "neighborhoods": "By Neighbourhood",
+    "collections": "Editor's Picks",
+    "noNeighborhoods": "No neighbourhoods available for this city yet.",
+    "noCollections": "No collections available for this city yet."
+  },
+  "profile": {
+    "reviews": "Reviews",
+    "stamps": "Stamps",
+    "saves": "Saved",
+    "followers": "Followers",
+    "following": "Following",
+    "follow": "Follow",
+    "following_action": "Following",
+    "settings": "Settings",
+    "language": "Language",
+    "account": "Account",
+    "editProfile": "Edit Profile",
+    "displayName": "Display name",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell others about yourself…",
+    "saveChanges": "Save changes",
+    "logout": "Log out",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "languageChanged": "Language updated. Restart the app for full layout changes.",
+    "noReviews": "No reviews yet",
+    "noSaves": "Nothing saved yet",
+    "noStamps": "No stamps earned yet",
+    "foundingBadge": "Founding Contributor"
+  }
+}

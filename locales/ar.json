@@ -1,0 +1,142 @@
+{
+  "common": {
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "done": "تم",
+    "loading": "جارٍ التحميل…",
+    "error": "حدث خطأ ما",
+    "retry": "إعادة المحاولة",
+    "seeAll": "عرض الكل",
+    "noResults": "لا توجد نتائج",
+    "report": "إبلاغ"
+  },
+  "auth": {
+    "welcome": "أهلاً بك في يوميات الطعام",
+    "tagline": "اكتشف أفضل المطاعم في الإمارات",
+    "selectLanguage": "اختر لغتك",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "signOut": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "username": "اسم المستخدم",
+    "displayName": "الاسم المعروض",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "noAccount": "ليس لديك حساب؟"
+  },
+  "tabs": {
+    "explore": "استكشاف",
+    "discover": "اكتشاف",
+    "add": "إضافة",
+    "passport": "جواز",
+    "profile": "الملف"
+  },
+  "explore": {
+    "searchPlaceholder": "ابحث عن مطاعم، مقاهي…",
+    "filters": "تصفية",
+    "nearby": "قريب",
+    "noPlacesFound": "لا توجد أماكن في هذه المنطقة",
+    "zoomIn": "كبّر الخريطة لرؤية المزيد",
+    "openNow": "مفتوح الآن",
+    "cuisine": "المطبخ",
+    "price": "السعر",
+    "neighborhood": "الحي",
+    "city": "المدينة",
+    "clearFilters": "مسح الفلاتر",
+    "applyFilters": "تطبيق الفلاتر"
+  },
+  "place": {
+    "reviews": "التقييمات",
+    "photos": "الصور",
+    "save": "حفظ",
+    "saved": "محفوظ",
+    "writeReview": "اكتب تقييماً",
+    "noReviews": "لا توجد تقييمات بعد. كن الأول!",
+    "noPhotos": "لا توجد صور بعد",
+    "openHours": "أوقات العمل",
+    "phone": "اتصل",
+    "directions": "الاتجاهات",
+    "priceTier": {
+      "1": "اقتصادي",
+      "2": "متوسط",
+      "3": "راقي",
+      "4": "فاخر"
+    },
+    "visitedBadge": "زرته"
+  },
+  "review": {
+    "title": "اكتب تقييماً",
+    "stepPlace": "اختر مكاناً",
+    "stepRating": "كيف كانت تجربتك؟",
+    "stepText": "أخبرنا المزيد",
+    "stepPhotos": "أضف صوراً",
+    "placeholder": "ما رأيك؟ ماذا تنصح الآخرين بطلبه؟",
+    "visitDate": "تاريخ الزيارة",
+    "setVisitDate": "حدد تاريخ الزيارة",
+    "discardTitle": "تجاهل التقييم؟",
+    "discardMessage": "ستُفقد مسودتك.",
+    "keepEditing": "متابعة التحرير",
+    "discardAction": "تجاهل",
+    "postButton": "نشر",
+    "nextButton": "التالي",
+    "ratingRequired": "يرجى اختيار تقييم بالنجوم للمتابعة",
+    "report": "إبلاغ",
+    "reportTitle": "الإبلاغ عن محتوى",
+    "reportSuccess": "تم تقديم البلاغ. شكراً لك.",
+    "reportReasons": {
+      "spam": "محتوى مزعج",
+      "inappropriate": "محتوى غير لائق",
+      "inaccurate": "معلومات غير دقيقة",
+      "harassment": "مضايقة أو إساءة",
+      "other": "أخرى"
+    }
+  },
+  "passport": {
+    "title": "جواز سفري",
+    "stamps": "الطوابع",
+    "progress": "التقدم",
+    "locked": "مقفل",
+    "unlocked": "مفتوح",
+    "foundingBadge": "المساهم المؤسس",
+    "earned": "حصلت عليه",
+    "checkProgress": "تحقق من التقدم",
+    "category": {
+      "milestone": "الإنجازات",
+      "cuisine": "المطابخ",
+      "neighborhood": "الأحياء",
+      "founding": "التأسيس"
+    }
+  },
+  "discover": {
+    "neighborhoods": "حسب الحي",
+    "collections": "اختيارات المحررين",
+    "noNeighborhoods": "لا توجد أحياء متاحة لهذه المدينة بعد.",
+    "noCollections": "لا توجد مجموعات متاحة لهذه المدينة بعد."
+  },
+  "profile": {
+    "reviews": "التقييمات",
+    "stamps": "الطوابع",
+    "saves": "المحفوظات",
+    "followers": "المتابعون",
+    "following": "يتابع",
+    "follow": "متابعة",
+    "following_action": "تتابعه",
+    "settings": "الإعدادات",
+    "language": "اللغة",
+    "account": "الحساب",
+    "editProfile": "تعديل الملف",
+    "displayName": "الاسم المعروض",
+    "bio": "نبذة عني",
+    "bioPlaceholder": "أخبر الآخرين عن نفسك…",
+    "saveChanges": "حفظ التغييرات",
+    "logout": "تسجيل الخروج",
+    "logoutConfirm": "هل أنت متأكد من تسجيل الخروج؟",
+    "languageChanged": "تم تحديث اللغة. أعد تشغيل التطبيق للتغييرات الكاملة.",
+    "noReviews": "لا توجد تقييمات بعد",
+    "noSaves": "لم يتم حفظ أي شيء بعد",
+    "noStamps": "لم يتم اكتساب أي طابع بعد",
+    "foundingBadge": "المساهم المؤسس"
+  }
+}
