@@ -3,14 +3,14 @@
  * search bar, filter sheet, and place preview bottom drawer.
  */
 import React, { useCallback, useDeferredValue, useRef, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
-import MapView, { type Region } from "react-native-maps";
-import MapViewClustering from "react-native-map-clustering";
+import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import type { Region } from "react-native-maps";
+
+import ClusteredMapView from "@/components/map/MapView";
 
 import type { Place, PlaceSearchParams } from "@/types";
-import { Colors, MapDefaults, Spacing } from "@/constants/theme";
-import { PlaceMarker } from "@/components/map/PlaceMarker";
+import { Colors } from "@/constants/theme";
 import { SearchBar } from "@/components/map/SearchBar";
 import { FilterSheet } from "@/components/map/FilterSheet";
 import { PlacePreviewSheet } from "@/components/map/PlacePreviewSheet";
@@ -27,7 +27,7 @@ function useFlatPlaces(params: PlaceSearchParams) {
 
 export default function ExploreScreen() {
   const { t } = useI18n();
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<any>(null);
 
   // Store state — individual selectors to avoid infinite re-renders in React 19
   const city = useMapStore((s) => s.city);
@@ -79,36 +79,15 @@ export default function ExploreScreen() {
   return (
     <View style={styles.container}>
       {/* Full-screen map */}
-      <MapViewClustering
-        ref={mapRef}
-        style={StyleSheet.absoluteFill}
-        initialRegion={region}
+      <ClusteredMapView
+        mapRef={mapRef}
+        region={region}
+        places={places}
+        selectedPlace={selectedPlace}
         onRegionChangeComplete={handleRegionChangeComplete}
         onPress={handleMapPress}
-        userInterfaceStyle="light"
-        mapType="standard"
-        showsUserLocation
-        showsMyLocationButton={false}
-        showsCompass={false}
-        customMapStyle={lightMapStyle}
-        // Clustering config
-        clusterColor={Colors.mapCluster}
-        clusterTextColor={Colors.textInverse}
-        clusterFontFamily={Platform.OS === "ios" ? "System" : "sans-serif-medium"}
-        radius={40}
-        maxZoom={18}
-        minPoints={4}
-        animationEnabled
-      >
-        {places.map((place) => (
-          <PlaceMarker
-            key={place.id}
-            place={place}
-            isSelected={selectedPlace?.id === place.id}
-            onPress={handleMarkerPress}
-          />
-        ))}
-      </MapViewClustering>
+        onMarkerPress={handleMarkerPress}
+      />
 
       {/* Search bar overlaid on top of map */}
       <SafeAreaView style={styles.overlay} edges={["top"]}>
@@ -155,16 +134,3 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-
-// Light editorial map style — cream/olive palette
-const lightMapStyle = [
-  { elementType: "geometry", stylers: [{ color: "#F0EBE1" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#4A5538" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#F7F3EC" }] },
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#FFFFFF" }] },
-  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#E8E0D0" }] },
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#C8D8E8" }] },
-  { featureType: "poi", stylers: [{ visibility: "off" }] },
-  { featureType: "transit", stylers: [{ visibility: "off" }] },
-  { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#3B4A28" }] },
-];

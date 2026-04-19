@@ -21,9 +21,9 @@ const tabLabelStyles = StyleSheet.create({
   wrap: { alignItems: "center", gap: 3 },
   pip: { width: 18, height: 3, borderRadius: 100, backgroundColor: "transparent" },
   pipActive: { backgroundColor: Colors.accentGold },
-  text: { fontSize: Typography.sizes.xs },
-  textActive: { fontWeight: Typography.weights.semibold, color: Colors.textPrimary },
-  textInactive: { fontWeight: Typography.weights.regular, color: Colors.textMuted },
+  text: { fontSize: Typography.sizes.xs, fontFamily: Typography.fontSans },
+  textActive: { color: Colors.textPrimary },
+  textInactive: { color: Colors.textMuted },
 });
 
 function FABTabButton({ onPress }: { onPress: () => void }) {
@@ -49,8 +49,6 @@ export default function TabLayout() {
           height: 80,
           paddingBottom: 20,
         },
-        tabBarActiveTintColor: Colors.textPrimary,
-        tabBarInactiveTintColor: Colors.textMuted,
         tabBarShowLabel: false,
       }}
     >
@@ -58,9 +56,7 @@ export default function TabLayout() {
         name="explore/index"
         options={{
           title: t("tabs.explore"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="map-outline" size={size} color={color} />
-          ),
+          tabBarIcon: () => null,
           tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.explore")} focused={focused} />,
         }}
       />
@@ -68,13 +64,10 @@ export default function TabLayout() {
         name="discover/index"
         options={{
           title: t("tabs.discover"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="compass-outline" size={size} color={color} />
-          ),
+          tabBarIcon: () => null,
           tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.discover")} focused={focused} />,
         }}
       />
-      {/* Centre FAB */}
       <Tabs.Screen
         name="add/index"
         options={{
@@ -89,9 +82,7 @@ export default function TabLayout() {
         name="passport/index"
         options={{
           title: t("tabs.passport"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="book-outline" size={size} color={color} />
-          ),
+          tabBarIcon: () => null,
           tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.passport")} focused={focused} />,
         }}
       />
@@ -99,9 +90,7 @@ export default function TabLayout() {
         name="profile/index"
         options={{
           title: t("tabs.profile"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
-          ),
+          tabBarIcon: () => null,
           tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.profile")} focused={focused} />,
         }}
       />
@@ -124,4 +113,4 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 6,
   },
-})
+});

@@ -50,8 +50,11 @@ export const Colors = {
 } as const;
 
 export const Typography = {
-  fontSans: "System",
-  fontDisplay: "Georgia",               // editorial titles
+  fontSans: "DMSans_400Regular",
+  fontSansMedium: "DMSans_500Medium",
+  fontDisplay: "PlayfairDisplay_400Regular",
+  fontDisplayItalic: "PlayfairDisplay_400Regular_Italic",
+  fontDisplayMedium: "PlayfairDisplay_500Medium",
   sizes: {
     xs: 11,
     sm: 13,

@@ -18,7 +18,7 @@ import { useI18n } from "@/hooks/useI18n";
 import { StampCard } from "@/components/passport/StampCard";
 import { StampDetailSheet } from "@/components/passport/StampDetailSheet";
 import { Text } from "@/components/ui/Text";
-import { Colors, Spacing, Radii } from "@/constants/theme";
+import { Colors, Spacing, Radii, Typography } from "@/constants/theme";
 import type { StampDefinition, UserStamp } from "@/types";
 
 type Category = "founding" | "milestone" | "cuisine" | "neighborhood";
@@ -78,7 +78,13 @@ export default function PassportScreen() {
     <SafeAreaView style={styles.container} edges={["top"]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text size="xl" weight="bold">{t("passport.title")}</Text>
+        <View style={styles.headerText}>
+          <Text size="xs" style={styles.eyebrow}>YOUR PASSPORT</Text>
+          <Text serif size="xl" style={styles.heroTitle}>
+            Your food life,{"\n"}
+            <Text serif italic size="xl" color={Colors.accentGold}>collected</Text>
+          </Text>
+        </View>
         <TouchableOpacity
           style={styles.checkBtn}
           onPress={handleCheckPress}
@@ -197,18 +203,31 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.md,
-    borderBottomWidth: 1,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.base,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.border,
+  },
+  headerText: { gap: 4 },
+  eyebrow: {
+    color: Colors.accentGold,
+    letterSpacing: 1.4,
+    fontFamily: Typography.fontSans,
+  },
+  heroTitle: {
+    color: Colors.textPrimary,
+    lineHeight: 30,
+    letterSpacing: -0.3,
   },
   checkBtn: {
     width: 36,
     height: 36,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: Spacing.xs,
   },
 
   scroll: { flex: 1 },

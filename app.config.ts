@@ -2,7 +2,7 @@ import type { ExpoConfig } from "expo/config";
 
 const config: ExpoConfig = {
   name: "Food Journal",
-  slug: "food-journal",
+  slug: "the-food-journal",
   version: "0.1.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -25,6 +25,7 @@ const config: ExpoConfig = {
         "Food Journal uses your camera to add photos to your reviews.",
       NSPhotoLibraryUsageDescription:
         "Food Journal accesses your photo library to attach images to reviews.",
+      ITSAppUsesNonExemptEncryption: false,
     },
   },
   android: {

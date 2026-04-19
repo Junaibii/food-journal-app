@@ -20,6 +20,7 @@ import { useNeighborhoodBuckets, useCuratedCollections } from "@/hooks/useDiscov
 import { useOwnSaves } from "@/hooks/useProfile";
 import { savePlace, unsavePlace } from "@/services/saves";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuthStore } from "@/stores/auth";
 import type { City, Place } from "@/types";
 import { Colors, Spacing, Typography, Radii } from "@/constants/theme";
 import { Text } from "@/components/ui/Text";
@@ -33,9 +34,14 @@ const CITIES: { key: City; labelEn: string; labelAr: string }[] = [
   { key: "abu_dhabi", labelEn: "Abu Dhabi", labelAr: "أبوظبي" },
 ];
 
+const FILTERS = ["Near me", "Omakase", "Levantine", "Open now"];
+
 export default function DiscoverScreen() {
   const { t, locale, isRTL } = useI18n();
   const [city, setCity] = useState<City>("dubai");
+  const [activeFilter, setActiveFilter] = useState("Near me");
+  const user = useAuthStore((s) => s.user);
+  const firstName = user?.display_name?.split(" ")[0] ?? user?.username ?? "you";
   const qc = useQueryClient();
 
   const {
@@ -92,13 +98,9 @@ export default function DiscoverScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      {/* ── Header ── */}
-      <View style={[styles.header, isRTL && styles.headerRTL]}>
-        <Text size="xl" weight="bold" style={isRTL ? styles.textRTL : undefined}>
-          {t("tabs.discover")}
-        </Text>
-
-        {/* City picker */}
+      {/* ── Hero header ── */}
+      <View style={styles.hero}>
+        {/* Eyebrow: city · today */}
         <View style={[styles.cityPicker, isRTL && styles.cityPickerRTL]}>
           {CITIES.map(({ key, labelEn, labelAr }) => {
             const label = locale === "ar" ? labelAr : labelEn;
@@ -109,17 +111,41 @@ export default function DiscoverScreen() {
                 style={[styles.cityChip, isActive && styles.cityChipActive]}
                 onPress={() => setCity(key)}
               >
-                <Text
-                  size="xs"
-                  weight={isActive ? "semibold" : "regular"}
-                  style={isActive ? styles.cityChipTextActive : styles.cityChipText}
-                >
+                <Text size="xs" style={isActive ? styles.cityChipTextActive : styles.cityChipText}>
                   {label}
                 </Text>
               </TouchableOpacity>
             );
           })}
         </View>
+
+        {/* Playfair headline */}
+        <Text serif size="2xl" style={styles.heroHeadline}>
+          Where to next,{"\n"}
+          <Text serif italic size="2xl" color={Colors.accentGold}>{firstName}</Text>
+        </Text>
+
+        {/* Filter pills */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filterRow}
+        >
+          {FILTERS.map((f) => {
+            const active = activeFilter === f;
+            return (
+              <TouchableOpacity
+                key={f}
+                style={[styles.filterChip, active && styles.filterChipActive]}
+                onPress={() => setActiveFilter(f)}
+              >
+                <Text size="xs" style={active ? styles.filterChipTextActive : styles.filterChipText}>
+                  {f}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
       </View>
 
       {/* ── Content ── */}
@@ -137,12 +163,8 @@ export default function DiscoverScreen() {
       >
         {/* ── Section 1: Neighbourhood buckets ── */}
         <View style={styles.sectionHeader}>
-          <Text
-            size="sm"
-            weight="semibold"
-            style={[styles.sectionLabel, isRTL && styles.textRTL]}
-          >
-            {t("discover.neighborhoods")}
+          <Text size="xs" style={[styles.sectionLabel, isRTL && styles.textRTL]}>
+            FROM PEOPLE YOU TRUST
           </Text>
         </View>
 
@@ -209,25 +231,25 @@ function EmptyState({ label }: { label: string }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.bg },
+  textRTL: { textAlign: "right" },
 
-  // Header
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  // Hero header
+  hero: {
     paddingHorizontal: Spacing.base,
-    paddingVertical: Spacing.md,
+    paddingTop: Spacing.md,
+    paddingBottom: Spacing.base,
+    gap: Spacing.md,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.border,
   },
-  headerRTL: { flexDirection: "row-reverse" },
-  textRTL: { textAlign: "right" },
-
-  // City picker
-  cityPicker: {
-    flexDirection: "row",
-    gap: Spacing.xs,
+  heroHeadline: {
+    color: Colors.textPrimary,
+    lineHeight: 34,
+    letterSpacing: -0.5,
   },
+
+  // City picker (eyebrow)
+  cityPicker: { flexDirection: "row", gap: Spacing.xs },
   cityPickerRTL: { flexDirection: "row-reverse" },
   cityChip: {
     paddingHorizontal: Spacing.sm,
@@ -244,6 +266,23 @@ const styles = StyleSheet.create({
   cityChipText: { color: Colors.textMuted },
   cityChipTextActive: { color: Colors.accentGold },
 
+  // Filter pills
+  filterRow: { gap: Spacing.xs, paddingRight: Spacing.base },
+  filterChip: {
+    paddingHorizontal: 13,
+    paddingVertical: 6,
+    borderRadius: Radii.pill,
+    borderWidth: 0.5,
+    borderColor: Colors.border,
+    backgroundColor: Colors.bgSurface,
+  },
+  filterChipActive: {
+    backgroundColor: Colors.accent,
+    borderColor: Colors.accent,
+  },
+  filterChipText: { color: Colors.textMuted },
+  filterChipTextActive: { color: Colors.textInverse },
+
   // Scroll
   scroll: { flex: 1 },
   scrollContent: { paddingTop: Spacing.lg, paddingBottom: Spacing["3xl"] },
@@ -253,14 +292,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.base,
     marginBottom: Spacing.sm,
   },
-  sectionHeaderSpaced: {
-    marginTop: Spacing.lg,
-  },
+  sectionHeaderSpaced: { marginTop: Spacing.lg },
   sectionLabel: {
-    color: Colors.textMuted,
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
-    fontSize: Typography.sizes.xs,
+    color: Colors.accentGold,
+    letterSpacing: 1.4,
+    fontFamily: Typography.fontSans,
   },
 
   // Empty state

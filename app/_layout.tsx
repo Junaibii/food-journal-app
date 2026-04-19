@@ -6,6 +6,16 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { getLocales } from "expo-localization";
 import { StyleSheet } from "react-native";
+import { useFonts } from "expo-font";
+import {
+  PlayfairDisplay_400Regular,
+  PlayfairDisplay_400Regular_Italic,
+  PlayfairDisplay_500Medium,
+} from "@expo-google-fonts/playfair-display";
+import {
+  DMSans_400Regular,
+  DMSans_500Medium,
+} from "@expo-google-fonts/dm-sans";
 import { Colors } from "@/constants/theme";
 import { initI18n } from "@/hooks/useI18n";
 import { useAuthStore } from "@/stores/auth";
@@ -24,9 +34,21 @@ const queryClient = new QueryClient({
 });
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    PlayfairDisplay_400Regular,
+    PlayfairDisplay_400Regular_Italic,
+    PlayfairDisplay_500Medium,
+    DMSans_400Regular,
+    DMSans_500Medium,
+  });
+
   const setLoading = useAuthStore((s) => s.setLoading);
   const restoreAuth = useAuthStore((s) => s.restoreAuth);
   const clearAuth = useAuthStore((s) => s.clearAuth);
+
+  useEffect(() => {
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded]);
 
   useEffect(() => {
     async function boot() {
@@ -51,7 +73,7 @@ export default function RootLayout() {
         clearAuth();
       } finally {
         setLoading(false);
-        SplashScreen.hideAsync();
+        if (fontsLoaded) SplashScreen.hideAsync();
       }
     }
 

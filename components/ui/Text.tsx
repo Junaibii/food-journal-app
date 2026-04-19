@@ -9,6 +9,8 @@ interface Props extends TextProps {
   color?: string;
   secondary?: boolean;
   muted?: boolean;
+  serif?: boolean;
+  italic?: boolean;
 }
 
 export function Text({
@@ -18,16 +20,24 @@ export function Text({
   color,
   secondary,
   muted,
+  serif,
+  italic,
   ...props
 }: Props) {
   const { isRTL } = useI18n();
+
+  const fontFamily = serif
+    ? italic
+      ? Typography.fontDisplayItalic
+      : Typography.fontDisplay
+    : Typography.fontSans;
 
   return (
     <RNText
       style={[
         {
           fontSize: Typography.sizes[size],
-          fontWeight: Typography.weights[weight],
+          fontFamily,
           color: muted
             ? Colors.textMuted
             : secondary
