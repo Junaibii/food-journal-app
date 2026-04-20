@@ -52,9 +52,12 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function boot() {
-      // Initialise locale from device settings before any screen renders.
-      const deviceLocale = getLocales()[0]?.languageCode ?? "en";
-      initI18n(deviceLocale === "ar" ? "ar" : "en");
+      try {
+        const deviceLocale = getLocales()[0]?.languageCode ?? "en";
+        initI18n(deviceLocale === "ar" ? "ar" : "en");
+      } catch {
+        initI18n("en");
+      }
 
       try {
         const token = await storage.getToken();
