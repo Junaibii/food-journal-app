@@ -1,7 +1,9 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import { useAuthStore } from "@/stores/auth";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+const BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL ??
+  "https://food-journal-api-production.up.railway.app/api/v1";
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: BASE_URL,
