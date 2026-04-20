@@ -1,17 +1,12 @@
-/**
- * Login screen
- */
 import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Colors, Radii, Spacing, Typography } from "@/constants/theme";
@@ -19,20 +14,20 @@ import { Text } from "@/components/ui/Text";
 import { Button } from "@/components/ui/Button";
 import { useAuthStore } from "@/stores/auth";
 import { login } from "@/services/auth";
-import { useI18n } from "@/hooks/useI18n";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { t } = useI18n();
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async () => {
+    setError("");
     if (!email.trim() || !password.trim()) {
-      Alert.alert("", "Please enter your email and password.");
+      setError("Please enter your email and password.");
       return;
     }
     setLoading(true);
@@ -41,10 +36,7 @@ export default function LoginScreen() {
       setAuth(user, token);
       router.replace("/(tabs)/explore");
     } catch (err: unknown) {
-      Alert.alert(
-        "Login failed",
-        err instanceof Error ? err.message : "Please check your credentials.",
-      );
+      setError(err instanceof Error ? err.message : "Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -62,19 +54,15 @@ export default function LoginScreen() {
       >
         <View style={styles.hero}>
           <Text style={styles.heroEmoji}>🍽️</Text>
-          <Text size="2xl" weight="bold" style={styles.title}>
-            Food Journal
-          </Text>
-          <Text secondary style={styles.tagline}>
-            Sign in to your account
-          </Text>
+          <Text size="2xl" weight="bold" style={styles.title}>Food Journal</Text>
+          <Text secondary style={styles.tagline}>Sign in to your account</Text>
         </View>
 
         <View style={styles.form}>
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+
           <View style={styles.field}>
-            <Text size="sm" weight="semibold" secondary>
-              Email
-            </Text>
+            <Text size="sm" weight="semibold" secondary>Email</Text>
             <TextInput
               style={styles.input}
               value={email}
@@ -88,9 +76,7 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.field}>
-            <Text size="sm" weight="semibold" secondary>
-              Password
-            </Text>
+            <Text size="sm" weight="semibold" secondary>Password</Text>
             <TextInput
               style={styles.input}
               value={password}
@@ -112,13 +98,9 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.footer}>
-          <Text secondary size="sm">
-            Don't have an account?{" "}
-          </Text>
+          <Text secondary size="sm">Don't have an account? </Text>
           <TouchableOpacity onPress={() => router.push("/(auth)/register")}>
-            <Text size="sm" weight="semibold" color={Colors.accentGold}>
-              Sign Up
-            </Text>
+            <Text size="sm" weight="semibold" color={Colors.accentGold}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -141,6 +123,11 @@ const styles = StyleSheet.create({
   tagline: { textAlign: "center" },
   form: { gap: Spacing.md },
   field: { gap: Spacing.xs },
+  error: {
+    color: "#E53E3E",
+    fontSize: Typography.sizes.sm,
+    textAlign: "center",
+  },
   input: {
     backgroundColor: Colors.bgSurface,
     borderRadius: Radii.md,

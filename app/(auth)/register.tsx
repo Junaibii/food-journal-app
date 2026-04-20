@@ -1,13 +1,9 @@
-/**
- * Register screen
- */
 import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -18,25 +14,25 @@ import { Text } from "@/components/ui/Text";
 import { Button } from "@/components/ui/Button";
 import { useAuthStore } from "@/stores/auth";
 import { register } from "@/services/auth";
-import { useI18n } from "@/hooks/useI18n";
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const { t } = useI18n();
   const setAuth = useAuthStore((s) => s.setAuth);
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleRegister = async () => {
+    setError("");
     if (!email.trim() || !username.trim() || !password.trim()) {
-      Alert.alert("", "Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
-    if (password.length < 8) {
-      Alert.alert("", "Password must be at least 8 characters.");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
       return;
     }
     setLoading(true);
@@ -49,10 +45,7 @@ export default function RegisterScreen() {
       setAuth(user, token);
       router.replace("/(tabs)/explore");
     } catch (err: unknown) {
-      Alert.alert(
-        "Registration failed",
-        err instanceof Error ? err.message : "Please try again.",
-      );
+      setError(err instanceof Error ? err.message : "Please try again.");
     } finally {
       setLoading(false);
     }
@@ -70,19 +63,15 @@ export default function RegisterScreen() {
       >
         <View style={styles.hero}>
           <Text style={styles.heroEmoji}>🍽️</Text>
-          <Text size="2xl" weight="bold" style={styles.title}>
-            Create Account
-          </Text>
-          <Text secondary style={styles.tagline}>
-            Join the Food Journal community
-          </Text>
+          <Text size="2xl" weight="bold" style={styles.title}>Create Account</Text>
+          <Text secondary style={styles.tagline}>Join the Food Journal community</Text>
         </View>
 
         <View style={styles.form}>
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+
           <View style={styles.field}>
-            <Text size="sm" weight="semibold" secondary>
-              Email
-            </Text>
+            <Text size="sm" weight="semibold" secondary>Email</Text>
             <TextInput
               style={styles.input}
               value={email}
@@ -96,9 +85,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.field}>
-            <Text size="sm" weight="semibold" secondary>
-              Username
-            </Text>
+            <Text size="sm" weight="semibold" secondary>Username</Text>
             <TextInput
               style={styles.input}
               value={username}
@@ -110,9 +97,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.field}>
-            <Text size="sm" weight="semibold" secondary>
-              Password
-            </Text>
+            <Text size="sm" weight="semibold" secondary>Password</Text>
             <TextInput
               style={styles.input}
               value={password}
@@ -134,13 +119,9 @@ export default function RegisterScreen() {
         </View>
 
         <View style={styles.footer}>
-          <Text secondary size="sm">
-            Already have an account?{" "}
-          </Text>
+          <Text secondary size="sm">Already have an account? </Text>
           <TouchableOpacity onPress={() => router.back()}>
-            <Text size="sm" weight="semibold" color={Colors.accentGold}>
-              Sign In
-            </Text>
+            <Text size="sm" weight="semibold" color={Colors.accentGold}>Sign In</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -163,6 +144,11 @@ const styles = StyleSheet.create({
   tagline: { textAlign: "center" },
   form: { gap: Spacing.md },
   field: { gap: Spacing.xs },
+  error: {
+    color: "#E53E3E",
+    fontSize: Typography.sizes.sm,
+    textAlign: "center",
+  },
   input: {
     backgroundColor: Colors.bgSurface,
     borderRadius: Radii.md,
