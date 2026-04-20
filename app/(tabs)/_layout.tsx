@@ -6,10 +6,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors, Radii, Spacing, Typography } from "@/constants/theme";
 import { useI18n } from "@/hooks/useI18n";
 
-function TabLabel({ label, focused }: { label: string; focused: boolean }) {
+function TabLabel({ label, focused, icon }: { label: string; focused: boolean; icon: string }) {
   return (
     <View style={tabLabelStyles.wrap}>
       <View style={[tabLabelStyles.pip, focused && tabLabelStyles.pipActive]} />
+      <Ionicons name={icon as any} size={22} color={focused ? Colors.accentGold : Colors.textMuted} />
       <RNText style={[tabLabelStyles.text, focused ? tabLabelStyles.textActive : tabLabelStyles.textInactive]}>
         {label}
       </RNText>
@@ -46,8 +47,8 @@ export default function TabLayout() {
           backgroundColor: Colors.bgSurface,
           borderTopColor: Colors.borderSubtle,
           borderTopWidth: 0.5,
-          height: 80,
-          paddingBottom: 20,
+          height: 90,
+          paddingBottom: 16,
         },
         tabBarShowLabel: false,
       }}
@@ -57,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.explore"),
           tabBarIcon: () => null,
-          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.explore")} focused={focused} />,
+          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.explore")} focused={focused} icon="map-outline" />,
         }}
       />
       <Tabs.Screen
@@ -65,7 +66,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.discover"),
           tabBarIcon: () => null,
-          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.discover")} focused={focused} />,
+          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.discover")} focused={focused} icon="compass-outline" />,
         }}
       />
       <Tabs.Screen
@@ -83,7 +84,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.passport"),
           tabBarIcon: () => null,
-          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.passport")} focused={focused} />,
+          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.passport")} focused={focused} icon="book-outline" />,
         }}
       />
       <Tabs.Screen
@@ -91,7 +92,7 @@ export default function TabLayout() {
         options={{
           title: t("tabs.profile"),
           tabBarIcon: () => null,
-          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.profile")} focused={focused} />,
+          tabBarLabel: ({ focused }) => <TabLabel label={t("tabs.profile")} focused={focused} icon="person-outline" />,
         }}
       />
     </Tabs>
