@@ -127,6 +127,7 @@ export function ProfileView({
                   key={review.id}
                   review={review}
                   placeEmoji={placeEmoji}
+                  placeName="Unknown place"
                 />
               );
             })

@@ -106,6 +106,8 @@ export default function ComposeScreen() {
   // When we arrive with a placeId param, start at step 2; otherwise step 1
   const startStep = placeIdParam ? 2 : 1;
   const [step, setStep] = useState<1 | 2 | 3 | 4>(startStep as 1 | 2 | 3 | 4);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   // Resolve active placeId: from query param or store
   const activePlaceId = placeIdParam ?? storePlaceParam?.id ?? null;
@@ -166,6 +168,7 @@ export default function ComposeScreen() {
 
   const handleSubmit = useCallback(async () => {
     if (!activePlaceId || rating === null || createReview.isPending) return;
+    setSubmitError("");
     try {
       await createReview.mutateAsync({
         review: {
@@ -176,10 +179,12 @@ export default function ComposeScreen() {
         },
         photos,
       });
+      setSubmitSuccess(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       reset();
       router.replace(`/place/${activePlaceId}`);
     } catch (err: unknown) {
-      Alert.alert("Error", err instanceof Error ? err.message : t("common.error"));
+      setSubmitError(err instanceof Error ? err.message : t("common.error" as any));
     }
   }, [activePlaceId, rating, body, visitDate, photos, createReview, reset, router, t]);
 
@@ -248,6 +253,18 @@ export default function ComposeScreen() {
           />
         )}
       </View>
+
+      {/* Submit feedback */}
+      {submitSuccess && (
+        <View style={styles.feedbackBanner}>
+          <Text size="sm" style={styles.feedbackSuccess}>Review posted! ✓</Text>
+        </View>
+      )}
+      {submitError.length > 0 && (
+        <View style={styles.feedbackBanner}>
+          <Text size="sm" style={styles.feedbackError}>{submitError}</Text>
+        </View>
+      )}
 
       {/* Place summary row (steps 2-4) */}
       {step >= 2 && (
@@ -454,6 +471,13 @@ const styles = StyleSheet.create({
     borderColor: Colors.accentGold,
     backgroundColor: Colors.accentGoldBg,
   },
+  feedbackBanner: {
+    paddingHorizontal: Spacing.base,
+    paddingVertical: Spacing.xs,
+  },
+  feedbackSuccess: { color: "#4CAF50", textAlign: "center" },
+  feedbackError: { color: "#F44336", textAlign: "center" },
+
   dateBtn: {
     flexDirection: "row",
     alignItems: "center",

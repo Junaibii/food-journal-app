@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthStore } from "@/stores/auth";
 import { useUserProfile } from "@/hooks/useProfile";
@@ -23,7 +23,13 @@ export default function ProfileScreen() {
 
   const handleRefresh = useCallback(() => { refetch(); }, [refetch]);
 
-  if (!user || !profile) return null;
+  if (!user || !profile) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: Colors.bg }}>
+        <ActivityIndicator color={Colors.accentGold} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>

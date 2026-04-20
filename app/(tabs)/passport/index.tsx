@@ -143,6 +143,16 @@ export default function PassportScreen() {
           </View>
         </View>
 
+        {/* Empty state */}
+        {allStamps.length === 0 && (
+          <Text
+            size="sm"
+            style={{ textAlign: "center", color: Colors.textSecondary, marginTop: Spacing.md }}
+          >
+            No stamps yet. Start exploring to earn your first stamp!
+          </Text>
+        )}
+
         {/* Sections by category */}
         {CATEGORY_ORDER.map((cat) => {
           const stamps = grouped.get(cat);

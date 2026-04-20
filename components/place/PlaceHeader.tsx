@@ -26,9 +26,13 @@ export function PlaceHeader({ place, isSaved, onSave }: Props) {
 
   const openMaps = () => {
     if (!place.latitude || !place.longitude) return;
-    const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
     const latLng = `${place.latitude},${place.longitude}`;
     const label = encodeURIComponent(place.name_en);
+    if (Platform.OS === "web") {
+      Linking.openURL(`https://maps.google.com/?q=${latLng}(${label})`);
+      return;
+    }
+    const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
       android: `${scheme}${latLng}(${label})`,
