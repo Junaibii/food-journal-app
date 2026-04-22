@@ -34,14 +34,46 @@ const CITIES: { key: City; labelEn: string; labelAr: string }[] = [
   { key: "dubai", labelEn: "Dubai", labelAr: "دبي" },
 ];
 
-const FILTERS = ["Near me", "Omakase", "Levantine", "Open now"];
+const FILTERS = [
+  { key: "near_me",  labelEn: "Near me",  labelAr: "بالقرب مني" },
+  { key: "arabic",   labelEn: "Arabic",   labelAr: "عربي" },
+  { key: "grills",   labelEn: "Grills",   labelAr: "مشاوي" },
+  { key: "cafes",    labelEn: "Cafés",    labelAr: "مقاهي" },
+  { key: "open_now", labelEn: "Open now", labelAr: "مفتوح الآن" },
+];
+
+function getGreeting(firstName: string, locale: string): { line1: string; line2: string } {
+  const hour = new Date().getHours();
+  const isAr = locale === "ar";
+  if (hour < 12) return {
+    line1: isAr ? "صباح الخير،" : "Good morning,",
+    line2: firstName,
+  };
+  if (hour < 15) return {
+    line1: isAr ? "وين الغداء،" : "Where to lunch,",
+    line2: firstName,
+  };
+  if (hour < 18) return {
+    line1: isAr ? "خطط العصر،" : "Afternoon plans,",
+    line2: firstName,
+  };
+  if (hour < 21) return {
+    line1: isAr ? "وين العشاء،" : "Where to dinner,",
+    line2: firstName,
+  };
+  return {
+    line1: isAr ? "سهرة الليل،" : "Evening out,",
+    line2: firstName,
+  };
+}
 
 export default function DiscoverScreen() {
   const { t, locale, isRTL } = useI18n();
   const [city, setCity] = useState<City>("abu_dhabi");
-  const [activeFilter, setActiveFilter] = useState("Near me");
+  const [activeFilter, setActiveFilter] = useState("near_me");
   const user = useAuthStore((s) => s.user);
   const firstName = user?.display_name?.split(" ")[0] ?? user?.username ?? "you";
+  const greeting = getGreeting(firstName, locale);
   const qc = useQueryClient();
 
   const {
@@ -119,10 +151,10 @@ export default function DiscoverScreen() {
           })}
         </View>
 
-        {/* Playfair headline */}
+        {/* Playfair headline — time-of-day greeting */}
         <Text serif size="2xl" style={styles.heroHeadline}>
-          Where to next,{"\n"}
-          <Text serif italic size="2xl" color={Colors.accentGold}>{firstName}</Text>
+          {greeting.line1}{"\n"}
+          <Text serif italic size="2xl" color={Colors.accentGold}>{greeting.line2}</Text>
         </Text>
 
         {/* Filter pills */}
@@ -131,16 +163,17 @@ export default function DiscoverScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.filterRow}
         >
-          {FILTERS.map((f) => {
-            const active = activeFilter === f;
+          {FILTERS.map(({ key, labelEn, labelAr }) => {
+            const label = locale === "ar" ? labelAr : labelEn;
+            const active = activeFilter === key;
             return (
               <TouchableOpacity
-                key={f}
+                key={key}
                 style={[styles.filterChip, active && styles.filterChipActive]}
-                onPress={() => setActiveFilter(f)}
+                onPress={() => setActiveFilter(key)}
               >
                 <Text size="xs" style={active ? styles.filterChipTextActive : styles.filterChipText}>
-                  {f}
+                  {label}
                 </Text>
               </TouchableOpacity>
             );
@@ -164,7 +197,7 @@ export default function DiscoverScreen() {
         {/* ── Section 1: Neighbourhood buckets ── */}
         <View style={styles.sectionHeader}>
           <Text size="xs" style={[styles.sectionLabel, isRTL && styles.textRTL]}>
-            FROM PEOPLE YOU TRUST
+            {locale === "ar" ? "حسب الحي" : "BY NEIGHBOURHOOD"}
           </Text>
         </View>
 

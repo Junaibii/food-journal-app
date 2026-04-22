@@ -32,7 +32,7 @@ export function NeighborhoodRow({ bucket, savedPlaceIds, onSaveToggle }: Props) 
           {bucket.neighborhood}
         </Text>
         <Text size="xs" style={styles.count}>
-          {bucket.place_count}
+          {bucket.place_count} {bucket.place_count === 1 ? "place" : "places"}
         </Text>
       </View>
 

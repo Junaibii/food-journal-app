@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import type { StampDefinition } from "@/types";
 import { Colors, Radii, Spacing } from "@/constants/theme";
 import { Text } from "@/components/ui/Text";
@@ -17,34 +16,29 @@ export const StampCard = memo(({ stamp, isUnlocked, onPress }: Props) => {
   const { locale } = useI18n();
   const name = locale === "ar" && stamp.name_ar ? stamp.name_ar : stamp.name_en;
 
+  if (!isUnlocked) {
+    return (
+      <TouchableOpacity style={styles.locked} onPress={onPress} activeOpacity={0.6}>
+        <Text style={styles.lockedEmoji}>{stampEmoji(stamp)}</Text>
+        <Text size="xs" style={styles.lockedLabel} numberOfLines={2}>{name}</Text>
+        <Text style={styles.lockIcon}>🔒</Text>
+      </TouchableOpacity>
+    );
+  }
+
   return (
-    <TouchableOpacity
-      style={[styles.card, isUnlocked && styles.cardUnlocked]}
-      onPress={onPress}
-      activeOpacity={0.7}
-    >
-      <View style={styles.emojiWrap}>
-        <Text style={[styles.emoji, !isUnlocked && styles.emojiLocked]}>
-          {stampEmoji(stamp)}
-        </Text>
-        {!isUnlocked && (
-          <View style={styles.lockOverlay}>
-            <Ionicons name="lock-closed" size={14} color={Colors.textMuted} />
-          </View>
-        )}
+    <TouchableOpacity style={styles.unlocked} onPress={onPress} activeOpacity={0.75}>
+      {/* Gold glow ring */}
+      <View style={styles.emojiRing}>
+        <Text style={styles.unlockedEmoji}>{stampEmoji(stamp)}</Text>
       </View>
-      <Text
-        size="xs"
-        weight={isUnlocked ? "semibold" : "regular"}
-        style={[styles.label, !isUnlocked && styles.labelLocked]}
-        numberOfLines={2}
-      >
+      <Text size="xs" weight="semibold" style={styles.unlockedLabel} numberOfLines={2}>
         {name}
       </Text>
-      {isUnlocked && stamp.tier > 1 && (
-        <View style={styles.tierDot}>
+      {stamp.tier > 1 && (
+        <View style={styles.tierRow}>
           {Array.from({ length: stamp.tier }).map((_, i) => (
-            <View key={i} style={styles.dot} />
+            <View key={i} style={styles.tierDot} />
           ))}
         </View>
       )}
@@ -55,56 +49,64 @@ export const StampCard = memo(({ stamp, isUnlocked, onPress }: Props) => {
 const CARD_SIZE = 90;
 
 const styles = StyleSheet.create({
-  card: {
+  // Locked — small, muted, dashed border
+  locked: {
     width: CARD_SIZE,
-    minHeight: CARD_SIZE + 24,
-    backgroundColor: Colors.bgSurface,
-    borderRadius: 13,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    minHeight: CARD_SIZE + 20,
     alignItems: "center",
+    justifyContent: "center",
     padding: Spacing.sm,
     gap: 4,
-    opacity: 0.45,
+    borderRadius: 13,
+    borderWidth: 1.5,
+    borderColor: Colors.borderSubtle,
+    borderStyle: "dashed",
+    backgroundColor: Colors.bgSurface,
+    opacity: 0.5,
   },
-  cardUnlocked: {
+  lockedEmoji: { fontSize: 24, opacity: 0.35, lineHeight: 30 },
+  lockedLabel: {
+    color: Colors.textMuted,
+    textAlign: "center",
+    lineHeight: 15,
+  },
+  lockIcon: { fontSize: 10, marginTop: 2 },
+
+  // Unlocked — gold border, warm bg, full opacity
+  unlocked: {
+    width: CARD_SIZE,
+    minHeight: CARD_SIZE + 20,
+    alignItems: "center",
+    padding: Spacing.sm,
+    gap: 6,
+    borderRadius: 13,
+    borderWidth: 1.5,
     borderColor: Colors.accentGoldBorder,
-    backgroundColor: Colors.bgElevated,
-    opacity: 1,
+    backgroundColor: Colors.accentGoldBg,
+    shadowColor: Colors.accentGold,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  emojiWrap: {
-    position: "relative",
-    width: 44,
-    height: 44,
+  emojiRing: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "rgba(166,124,0,0.12)",
+    borderWidth: 1,
+    borderColor: Colors.accentGoldBorder,
     alignItems: "center",
     justifyContent: "center",
   },
-  emoji: {
-    fontSize: 30,
-    lineHeight: 36,
-  },
-  emojiLocked: {
-    opacity: 0.4,
-  },
-  lockOverlay: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-  },
-  label: {
-    color: Colors.textSecondary,
+  unlockedEmoji: { fontSize: 26, lineHeight: 32 },
+  unlockedLabel: {
+    color: Colors.textPrimary,
     textAlign: "center",
-    lineHeight: 16,
+    lineHeight: 15,
   },
-  labelLocked: {
-    color: Colors.textMuted,
-  },
+  tierRow: { flexDirection: "row", gap: 3 },
   tierDot: {
-    flexDirection: "row",
-    gap: 3,
-    marginTop: 2,
-  },
-  dot: {
     width: 5,
     height: 5,
     borderRadius: 3,
