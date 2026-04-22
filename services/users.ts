@@ -7,6 +7,9 @@ export interface UserUpdatePayload {
   bio?: string | null;
   locale?: "en" | "ar";
   avatar_url?: string | null;
+  instagram_url?: string | null;
+  tiktok_url?: string | null;
+  x_url?: string | null;
 }
 
 export async function getMe(): Promise<User> {

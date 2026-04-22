@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Linking } from "react-native";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import type { UserProfile } from "@/types";
@@ -99,6 +99,42 @@ export function ProfileHeader({
       {profile.bio ? (
         <Text size="sm" secondary style={styles.bio}>{profile.bio}</Text>
       ) : null}
+
+      {/* Social links */}
+      {(profile.instagram_url || profile.tiktok_url || profile.x_url) ? (
+        <View style={[styles.socialRow, isRTL && styles.rowRTL]}>
+          {profile.instagram_url && (
+            <TouchableOpacity
+              style={styles.socialBtn}
+              onPress={() => Linking.openURL(`https://instagram.com/${profile.instagram_url}`)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.socialIcon}>📸</Text>
+              <Text size="xs" secondary>@{profile.instagram_url}</Text>
+            </TouchableOpacity>
+          )}
+          {profile.tiktok_url && (
+            <TouchableOpacity
+              style={styles.socialBtn}
+              onPress={() => Linking.openURL(`https://tiktok.com/@${profile.tiktok_url}`)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.socialIcon}>🎵</Text>
+              <Text size="xs" secondary>@{profile.tiktok_url}</Text>
+            </TouchableOpacity>
+          )}
+          {profile.x_url && (
+            <TouchableOpacity
+              style={styles.socialBtn}
+              onPress={() => Linking.openURL(`https://x.com/${profile.x_url}`)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.socialIcon}>𝕏</Text>
+              <Text size="xs" secondary>@{profile.x_url}</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -160,4 +196,22 @@ const styles = StyleSheet.create({
   foundingText: { color: Colors.accentGold },
   username: {},
   bio: { lineHeight: 20 },
+  socialRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: Spacing.sm,
+    marginTop: Spacing.xs,
+  },
+  socialBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingVertical: 4,
+    paddingHorizontal: Spacing.sm,
+    borderRadius: Radii.sm,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.bgElevated,
+  },
+  socialIcon: { fontSize: 13 },
 });

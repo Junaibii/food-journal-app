@@ -5,6 +5,9 @@ export interface User {
   display_name: string | null;
   avatar_url: string | null;
   bio: string | null;
+  instagram_url: string | null;
+  tiktok_url: string | null;
+  x_url: string | null;
   locale: "en" | "ar";
   is_founding_contributor: boolean;
   created_at: string;

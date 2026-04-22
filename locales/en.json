@@ -137,6 +137,10 @@
     "noReviews": "No reviews yet",
     "noSaves": "Nothing saved yet",
     "noStamps": "No stamps earned yet",
-    "foundingBadge": "Founding Contributor"
+    "foundingBadge": "Founding Contributor",
+    "socialLinks": "Social links",
+    "instagramPlaceholder": "Instagram username",
+    "tiktokPlaceholder": "TikTok username",
+    "xPlaceholder": "X (Twitter) username"
   }
 }

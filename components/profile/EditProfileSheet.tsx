@@ -30,24 +30,36 @@ export function EditProfileSheet({ user, visible, onClose }: Props) {
 
   const [displayName, setDisplayName] = useState(user.display_name ?? "");
   const [bio, setBio] = useState(user.bio ?? "");
+  const [instagram, setInstagram] = useState(user.instagram_url ?? "");
+  const [tiktok, setTiktok] = useState(user.tiktok_url ?? "");
+  const [xHandle, setXHandle] = useState(user.x_url ?? "");
 
   // Reset to current values whenever the sheet opens
   useEffect(() => {
     if (visible) {
       setDisplayName(user.display_name ?? "");
       setBio(user.bio ?? "");
+      setInstagram(user.instagram_url ?? "");
+      setTiktok(user.tiktok_url ?? "");
+      setXHandle(user.x_url ?? "");
     }
-  }, [visible, user.display_name, user.bio]);
+  }, [visible, user.display_name, user.bio, user.instagram_url, user.tiktok_url, user.x_url]);
 
   const isDirty =
     displayName !== (user.display_name ?? "") ||
-    bio !== (user.bio ?? "");
+    bio !== (user.bio ?? "") ||
+    instagram !== (user.instagram_url ?? "") ||
+    tiktok !== (user.tiktok_url ?? "") ||
+    xHandle !== (user.x_url ?? "");
 
   const handleSave = async () => {
     try {
       await updateProfile.mutateAsync({
         display_name: displayName.trim() || null,
         bio: bio.trim() || null,
+        instagram_url: instagram.trim() || null,
+        tiktok_url: tiktok.trim() || null,
+        x_url: xHandle.trim() || null,
       });
       onClose();
     } catch {
@@ -122,6 +134,62 @@ export function EditProfileSheet({ user, visible, onClose }: Props) {
                   {bio.length}/200
                 </Text>
               </View>
+
+              {/* Social links */}
+              <Text size="sm" weight="semibold" secondary style={isRTL ? styles.textRTL : undefined}>
+                {t("profile.socialLinks")}
+              </Text>
+
+              <View style={styles.field}>
+                <View style={[styles.socialRow, isRTL && styles.rowRTL]}>
+                  <Text style={styles.socialIcon}>📸</Text>
+                  <TextInput
+                    style={[styles.input, styles.socialInput, isRTL && styles.inputRTL]}
+                    value={instagram}
+                    onChangeText={setInstagram}
+                    maxLength={100}
+                    placeholder={t("profile.instagramPlaceholder")}
+                    placeholderTextColor={Colors.textMuted}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textAlign={isRTL ? "right" : "left"}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.field}>
+                <View style={[styles.socialRow, isRTL && styles.rowRTL]}>
+                  <Text style={styles.socialIcon}>🎵</Text>
+                  <TextInput
+                    style={[styles.input, styles.socialInput, isRTL && styles.inputRTL]}
+                    value={tiktok}
+                    onChangeText={setTiktok}
+                    maxLength={100}
+                    placeholder={t("profile.tiktokPlaceholder")}
+                    placeholderTextColor={Colors.textMuted}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textAlign={isRTL ? "right" : "left"}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.field}>
+                <View style={[styles.socialRow, isRTL && styles.rowRTL]}>
+                  <Text style={styles.socialIcon}>𝕏</Text>
+                  <TextInput
+                    style={[styles.input, styles.socialInput, isRTL && styles.inputRTL]}
+                    value={xHandle}
+                    onChangeText={setXHandle}
+                    maxLength={100}
+                    placeholder={t("profile.xPlaceholder")}
+                    placeholderTextColor={Colors.textMuted}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textAlign={isRTL ? "right" : "left"}
+                  />
+                </View>
+              </View>
             </ScrollView>
 
             <TouchableOpacity
@@ -188,6 +256,14 @@ const styles = StyleSheet.create({
   bioInput: { minHeight: 80, textAlignVertical: "top" },
   charCount: { textAlign: "right" },
   charCountRTL: { textAlign: "left" },
+  socialRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.sm,
+  },
+  rowRTL: { flexDirection: "row-reverse" },
+  socialIcon: { fontSize: 18, width: 24, textAlign: "center" },
+  socialInput: { flex: 1 },
   saveBtn: {
     backgroundColor: Colors.accent,
     borderRadius: Radii.md,

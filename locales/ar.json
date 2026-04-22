@@ -137,6 +137,10 @@
     "noReviews": "لا توجد تقييمات بعد",
     "noSaves": "لم يتم حفظ أي شيء بعد",
     "noStamps": "لم يتم اكتساب أي طابع بعد",
-    "foundingBadge": "المساهم المؤسس"
+    "foundingBadge": "المساهم المؤسس",
+    "socialLinks": "روابط التواصل الاجتماعي",
+    "instagramPlaceholder": "اسم المستخدم في إنستغرام",
+    "tiktokPlaceholder": "اسم المستخدم في تيك توك",
+    "xPlaceholder": "اسم المستخدم في إكس"
   }
 }
