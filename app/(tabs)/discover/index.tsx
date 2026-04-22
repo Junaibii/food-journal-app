@@ -30,15 +30,15 @@ import { SkeletonRow } from "@/components/discover/SkeletonCard";
 import { useI18n } from "@/hooks/useI18n";
 
 const CITIES: { key: City; labelEn: string; labelAr: string }[] = [
-  { key: "dubai", labelEn: "Dubai", labelAr: "دبي" },
   { key: "abu_dhabi", labelEn: "Abu Dhabi", labelAr: "أبوظبي" },
+  { key: "dubai", labelEn: "Dubai", labelAr: "دبي" },
 ];
 
 const FILTERS = ["Near me", "Omakase", "Levantine", "Open now"];
 
 export default function DiscoverScreen() {
   const { t, locale, isRTL } = useI18n();
-  const [city, setCity] = useState<City>("dubai");
+  const [city, setCity] = useState<City>("abu_dhabi");
   const [activeFilter, setActiveFilter] = useState("Near me");
   const user = useAuthStore((s) => s.user);
   const firstName = user?.display_name?.split(" ")[0] ?? user?.username ?? "you";
