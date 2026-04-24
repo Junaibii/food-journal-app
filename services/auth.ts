@@ -18,15 +18,12 @@ interface AuthResponse {
 }
 
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  const { data } = await apiClient.post<AuthResponse>("/auth/dev-login", {
-    ...payload,
-    username: payload.email.split("@")[0],
-  });
+  const { data } = await apiClient.post<AuthResponse>("/auth/login", payload);
   return data;
 }
 
 export async function register(payload: RegisterPayload): Promise<AuthResponse> {
-  const { data } = await apiClient.post<AuthResponse>("/auth/dev-login", payload);
+  const { data } = await apiClient.post<AuthResponse>("/auth/register", payload);
   return data;
 }
 
